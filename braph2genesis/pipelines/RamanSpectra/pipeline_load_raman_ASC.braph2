@@ -1,0 +1,11 @@
+%% DiSTAP Pipeline Load Raman from ASC
+
+% This is the pipeline script to load the Raman spectra corresponding to an experiment.
+% 1. It loads an experiment from a series of ASC files contained in a directory.
+% 2. It visualizes the spectra for quality control.
+
+%% Raman Experiment
+re = ImporterRamanExperiment_ASC('WAITBAR', true).get('GET_DIR').get('RE'); % Load Raman spectra from ASC files % Raman spectra
+
+%% Spectra Visualization
+pf = RamanExperimentPF('RE', re); % View Raman spectra % View Raman spectra

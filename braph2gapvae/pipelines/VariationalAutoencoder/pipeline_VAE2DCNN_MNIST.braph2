@@ -1,0 +1,20 @@
+%% Pipeline MNIST Variational Autoencoder with 2D CNN 
+
+% This is the pipeline script to execute cross-validation with multi-layer perceptron classifier using binary undirected graph at fix densities obtained from connectivity data.
+% The connectivity data can be derived from imaging modalities like diffusion weighted imaging (DWI).
+% 1. It loads a brain atlas from an XLS file (e.g., desikan_atlas.xlsx).
+% 2. It loads data for three groups of subjects from the directories (e.g., CON_Group_1_XLS, CON_Group_2_XLS, and CON_Group_3_XLS) containing XLS files for each subject.
+% 3. It analyzes these groups using connectivity analyses (CON) based on binary undirected graph at fix densities (BUD).
+% 4. It executes the cross-validation process.
+
+% PDF: 
+% README: 
+
+%% Dataset
+dproc = NNDatasetProcess_MNIST('MNIST_IMAGE_FILE', [fileparts(which('NNDatasetProcess_MNIST')) filesep 'mnist_data' filesep 'train-images-idx3-ubyte.gz'], 'MNIST_LABEL_FILE', [fileparts(which('NNDatasetProcess_MNIST')) filesep 'mnist_data' filesep 'train-labels-idx1-ubyte.gz']); % Load a Dataset % Image Dataset
+
+%% Model
+nnvae = NNVariationalAutoencoder2DCNN('D', dproc.get('D'), 'EPOCHS', 10, 'BATCH', 128); % Train a Variational Autoencoder % Variational Autoencoder
+
+%% Evaluation
+nne = NNVariationalAutoencoderEvaluator_Image('NN', nnvae, 'D', dproc.get('D')); % Evaluate the Variational Autoencoder % Variational Autoencoder Evaluation

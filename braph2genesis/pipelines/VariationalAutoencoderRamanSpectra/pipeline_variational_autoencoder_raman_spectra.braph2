@@ -1,0 +1,21 @@
+%% DiSTAP DIVA Pipeline Raman Spectra Variational Autoencoder with Multilayer Perceptron
+
+% This pipeline trains a variational autoencoder (VAE, MLP-based) on plant Raman spectra and then
+%  visualises the 2D latent space (z1, z2) by species/plant type and stress condition and
+%  decodes representative spectra to identify peaks that drive differences between stresses
+% The connectivity data can be derived from imaging modalities like diffusion weighted imaging (DWI).
+% 1. It loads Raman spectra and labels (species, stress, location); It then applies optional preprocessing (first derivative; scaling).
+% 2. It trains a variational autoencoder.
+% 3. It Export per-species × per-location latent representations (z1/z2) aligned with the stress sequence for plotting, decode spectra per condition.
+
+% PDF: 
+% README: 
+
+%% Raman Spectra Dataset
+dproc = NNDatasetProcess_RamanSpectra().get('GET_DIR'); % Load Raman Spectra Data from B2 Files % Raman Spectra Dataset Processor
+
+%% Variational Autoencoder
+nnvae = NNVariationalAutoencoderMLP('D', dproc.get('D'), 'NEURONS_PER_LAYER', [64], 'EPOCHS', 3000, 'BATCH', 40); % Train a Variational Autoencoder % Variational Autoencoder Training
+
+%% Evaluation
+nne = NNVariationalAutoencoderEvaluator_RS('NN', nnvae, 'D', dproc.get('D'), 'DPROC', dproc, 'RESOLUTION_CM', 6, 'IDX_LABEL_KIND', 1, 'IDX_LABEL_STRESS', 2, 'IDX_LABEL_LOCATION', 3, 'STRESS_SEQ', {'HL', 'WL', 'LL', 'SH'}, 'STRESS_LABEL', {'High light', 'White light', 'Low light', 'Shade'}, 'STRESS_COLOUR', {'#E64B35FF', '#7E6148FF', '#4DBBD5FF', '#3C5488FF'}, 'STRESS_SHAPE', {'square', 'circle', 'triangle', 'diamond'}, 'DIRECTORY_UTIL_R', [fileparts(which('NNDatasetProcess_RamanSpectra')) filesep 'utilities'], 'DIRECTORY_ANALYSIS', [fileparts(which('NNDatasetProcess_RamanSpectra')) filesep 'study_LightStress' filesep 'analysis'], 'DIRECTORY_FIG', [fileparts(which('NNDatasetProcess_RamanSpectra')) filesep 'study_LightStress']); % Evaluate the Variational Autoencoder % Variational Autoencoder Evaluation

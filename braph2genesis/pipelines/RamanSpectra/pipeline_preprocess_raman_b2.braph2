@@ -1,0 +1,28 @@
+%% DiSTAP Pipeline Preprocess Raman from .b2
+
+% This is the pipeline script to load the Raman spectra corresponding to an experiment.
+% 1. It loads an experiment from a .b2 file contained in a directory.
+% 2. It preprocesses raw Raman spectra and outputs baseline-removed smooth Raman spectra. 
+% 3. It visualizes the output spectra for quality control.
+
+%% Load Raman Experiment
+re = ImporterRamanExperiment_B2('WAITBAR', true).get('GET_FILE').get('RE'); % Load Raman spectra from B2 file % Raw Raman spectra
+
+%% Visualize Raman spectra
+pf = RamanExperimentPF('RE', re); % View Raman spectra % View Raman spectra
+
+%% Trim Raman spectra
+st = SpectraTrimmer('RE_IN', re); % Trim Raman spectra % Trimmed Raman spectra
+
+%% Calibrate wavelengths 
+wc = WavelengthCalibrator('RE_IN', st.memorize('RE_OUT')); % Calibrate wavelengths % Wavelengths calibrated
+
+%% Remove Cosmic Ray Noise
+crnr = CosmicRayNoiseRemover('RE_IN', wc.memorize('RE_OUT')); % Remove Cosmic Ray Noise % Cosmic-Ray-Noise-removed Raman spectra
+
+%% Smoothen Raman Spectra
+sm = Smoothener('RE_IN', crnr.memorize('RE_OUT')); % Smoothen Raman spectra % Smoothened Raman spectra
+
+%% Generate Baseline-removed Raman
+br = BaselineRemover('RE_IN', sm.memorize('RE_OUT')); % Generate Baseline-removed Raman spectra % Baseline-removed Raman spectra
+
