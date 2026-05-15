@@ -1,0 +1,66 @@
+ELCLASS
+NaN
+NAME
+NaN
+DESCRIPTION
+NaN
+TEMPLATE
+NaN
+Variational Autoencoder ID
+1
+Variational Autoencoder Label
+2
+Variational Autoencoder Notes
+10
+TOSTRING
+NaN
+D
+NaN
+DP_CLASSES
+NaN
+Epochs
+7
+Batch Size
+8
+SHUFFLE
+NaN
+SOLVER
+NaN
+MODEL
+NaN
+INPUTS
+NaN
+TARGETS
+NaN
+Train
+9
+VERBOSE
+NaN
+PLOT_TRAINING
+NaN
+PREDICT
+NaN
+Learning Rate
+5
+Latent Space Number
+6
+Input Vector Size
+3
+ITERATION_DIM
+NaN
+NUM_MBQ_OUTPUT
+NaN
+MINIBATCH_FORMAT_INPUT
+NaN
+MINIBATCH_FORMAT_TARGET
+NaN
+ENCODER
+NaN
+DECODER
+NaN
+MBQ
+NaN
+LOSS_FN
+NaN
+Neuron Number per Layer
+4
