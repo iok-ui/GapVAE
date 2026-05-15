@@ -13,9 +13,17 @@ The name **GapVAE** combines two ideas:
 - **GapNet**, a deep-learning framework designed to analyse incomplete multimodal biological data, from the following publication:
 
 > Chang et al., *Neural network training with highly incomplete medical datasets*.
-> [Machine Learning: Science and Technology 3, 035001](https://iopscience.iop.org/article/10.1088/2632-2153/ac7b69).  
+> [Machine Learning: Science and Technology, 2021.](https://iopscience.iop.org/article/10.1088/2632-2153/ac7b69).  
 
-- **Variational Autoencoder (VAE)**, a generative neural-network model that learns a latent representation of data and can generate or reconstruct samples.
+- **Variational Autoencoder (VAE)**, a generative neural-network model that learns a latent representation of data and can generate or reconstruct samples, from the following publications:
+> Passaretti et al., *Clinical progression and genetic pathways in body-first and brain-first Parkinson’s disease*.  
+> [Molecular Neurodegeneration, 2025.](https://doi.org/10.1186/s13024-025-00866-5)
+
+> Chu et al., *Three-dimensional quantitative tissue clearing reveals differences in osteovascular niche of aged and young human mesenchymal stromal cells*.  
+> [Nature Biomedical Engineering, 2026.](https://doi.org/10.1038/s41551-026-01645-3)
+
+> Patil et al., *Raman spectra for plant-stress analysis using deep-learning* (preprint).  
+> [arXiv:2507.15772](https://arxiv.org/abs/2507.15772)
 
 GapVAE is designed for applications in **neuroimaging**, **proteomics**, **genomics**, and other biomedical datasets where missingness, multimodal structure, and latent biological variation are central analytical challenges.
 
