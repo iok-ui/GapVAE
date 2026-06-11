@@ -1,0 +1,7 @@
+# ============================================================
+# Local BRAPH 2 Genesis copies
+# ============================================================
+# Ignore all local/generated braph2genesis folders anywhere in the repo.
+
+braph2genesis/
+**/braph2genesis/
