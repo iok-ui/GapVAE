@@ -244,7 +244,7 @@ classdef PanelFig < Panel
 			%
 			% See also subclasses.
 			
-			subclass_list = { 'PanelFig' }; %CET: Computational Efficiency Trick
+			subclass_list = { 'PanelFig'  'NNClassifierMLP_CrossValidationPF_ROC'  'NNClassifierMLP_EvaluatorPF_ROC'  'BrainSurfacePF' }; %CET: Computational Efficiency Trick
 		end
 		function prop_list = getProps(category)
 			%GETPROPS returns the property list of figure panel.

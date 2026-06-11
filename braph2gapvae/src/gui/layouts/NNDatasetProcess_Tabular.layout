@@ -1,0 +1,48 @@
+ELCLASS
+NaN
+NAME
+NaN
+DESCRIPTION
+NaN
+TEMPLATE
+NaN
+Tabular Dataset Process ID
+1
+Tabular Dataset Process Label
+2
+Tabular Dataset Process Notes
+9
+TOSTRING
+NaN
+Processed Tabular Dataset
+8
+Waitbar ON/OFF
+3
+GR_LIST
+NaN
+Data Transformation
+4
+Data Normalisation
+5
+Scale Factor
+6
+TRANSFORM_DATA
+NaN
+INV_TRANSFORM_DATA
+NaN
+NORMALIZE_DATA
+NaN
+INV_NORMALIZE_DATA
+NaN
+RAW_DATA
+NaN
+PROCESS_DATA
+NaN
+REV_PROCESS_DATA
+NaN
+EXTRACT_DATA
+NaN
+VOI_DICT_LIST
+NaN
+Memorize Processed Data
+7

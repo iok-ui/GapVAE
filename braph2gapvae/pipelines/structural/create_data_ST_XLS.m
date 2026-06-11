@@ -41,7 +41,7 @@ if ~isfolder(data_dir)
 
     % Group 1
     K1 = 4; % degree (mean node degree is 2K) - group 1
-    beta1 = 0.08; % Rewiring probability - group 1
+    beta1 = 0.01; % Rewiring probability - group 1
 
     h1 = WattsStrogatz(N, K1, beta1); % create graph
     % figure(1)
@@ -98,8 +98,8 @@ if ~isfolder(data_dir)
     writetable(table(vois1), [data_dir filesep() 'ST_Group_1.vois.xlsx'], 'WriteVariableNames', false)
 
     % Group 2
-    K2 = K1; % degree (mean node degree is 2K) - group 2
-    beta2 = 0.7; % Rewiring probability - group 2
+    K2 = 30; % degree (mean node degree is 2K) - group 2
+    beta2 = 0.9; % Rewiring probability - group 2
 
     h2 = WattsStrogatz(N, K2, beta2);
     % figure(2)

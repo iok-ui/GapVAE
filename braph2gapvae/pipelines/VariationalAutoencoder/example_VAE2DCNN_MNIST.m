@@ -1,29 +1,45 @@
-%% EXAMPLE_NNCV_CON_BUD_M_CLA
-% Script example pipeline for NN regression cross-validation with input of GraphBUD measures derived from SubjectCON 
+%EXAMPLE_VAE2DCNN_MNIST
+% Script example pipeline for training and evaluating a 2D-CNN variational
+% autoencoder using the MNIST image dataset.
 
 clear variables %#ok<*NASGU>
 
-%% Load MNIST Dataset
+%% Load MNIST dataset
 dproc = NNDatasetProcess_MNIST( ...
     'MNIST_IMAGE_FILE', [fileparts(which('NNDatasetProcess_MNIST')) filesep 'mnist_data' filesep 'train-images-idx3-ubyte.gz'], ...
     'MNIST_LABEL_FILE', [fileparts(which('NNDatasetProcess_MNIST')) filesep 'mnist_data' filesep 'train-labels-idx1-ubyte.gz'] ...
     );
+
 d_mnist = dproc.get('D');
 
-%% Split for Training/Test
-d_split = NNDatasetSplit('D', d_mnist, 'SPLIT', {0.7, 0.3});
+%% Split dataset into training and test sets
+d_split = NNDatasetSplit( ...
+    'D', d_mnist, ...
+    'SPLIT', {0.7, 0.3} ...
+    );
+
 d_training = d_split.get('D_LIST_IT', 1);
 d_test = d_split.get('D_LIST_IT', 2);
 
-%% Train a Variational Autoencoder
-nnvae = NNVariationalAutoencoder2DCNN('D', d_training, 'EPOCHS', 2, 'BATCH', 128);
+%% Train variational autoencoder
+nnvae = NNVariationalAutoencoder2DCNN( ...
+    'D', d_training, ...
+    'EPOCHS', 1, ...
+    'BATCH', 128 ...
+    );
+
 nnvae.get('TRAIN')
 
-%% Evaluate and Visualize Latent Space
-nne = NNVariationalAutoencoderEvaluator_Image('NN', nnvae, 'D', d_test);
+%% Evaluate and visualise latent space
+nne = NNVariationalAutoencoderEvaluator_Image( ...
+    'NN', nnvae, ...
+    'D', d_test, ...
+    'TARGET_NAME', 
+    'SAVE_DIR', [fileparts(which('NNDatasetProcess_MNIST')) filesep 'figures'] ... 
+    );
+
 figure
 nne.get('PLOT_LATENT_REPRESENTATIONS')
 
-%%
 figure
 nne.get('PLOT_LATENT_CONTINUITY')

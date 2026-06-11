@@ -1,0 +1,48 @@
+ELCLASS
+NaN
+NAME
+NaN
+DESCRIPTION
+NaN
+TEMPLATE
+NaN
+Structural Dataset Process ID
+1
+Structural Dataset Process Label
+2
+Structural Dataset Process Notes
+10
+TOSTRING
+NaN
+Processed Structural Dataset
+9
+Waitbar ON/OFF
+3
+Subject ST Groups
+4
+Data Transformation
+5
+Data Normalisation
+6
+Scale Factor
+7
+TRANSFORM_DATA
+NaN
+INV_TRANSFORM_DATA
+NaN
+NORMALIZE_DATA
+NaN
+INV_NORMALIZE_DATA
+NaN
+RAW_DATA
+NaN
+PROCESS_DATA
+NaN
+REV_PROCESS_DATA
+NaN
+EXTRACT_DATA
+NaN
+VOI_DICT_LIST
+NaN
+Memorize Processed Data
+8

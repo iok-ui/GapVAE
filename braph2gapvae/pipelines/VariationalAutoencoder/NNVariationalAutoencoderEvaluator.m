@@ -1,25 +1,24 @@
 classdef NNVariationalAutoencoderEvaluator < NNEvaluator
-	%NNVariationalAutoencoderEvaluator evaluates the performance of a trained neural network model with a dataset.
+	%NNVariationalAutoencoderEvaluator evaluates a trained variational autoencoder with a neural-network dataset.
 	% It is a subclass of <a href="matlab:help NNEvaluator">NNEvaluator</a>.
 	%
-	% A neural network evaluator (NNEvalu
-	% ator) evaluates the performance of a neural network model with a specific dataset.
-	% Instances of this class should not be created. Use one of its subclasses instead.
-	% Its subclasses shall be specifically designed to cater to different evaluation cases such as a classification task, a regression task, or a data generation task.
+	% A variational autoencoder evaluator (NNVariationalAutoencoderEvaluator) provides common evaluation utilities for trained variational autoencoders. It stores the trained neural network and dataset used for evaluation. Specific subclasses implement evaluation workflows such as latent-space visualisation for structural data or latent-continuity visualisation for image data.
 	%
 	% The list of NNVariationalAutoencoderEvaluator properties is:
-	%  <strong>1</strong> <strong>ELCLASS</strong> 	ELCLASS (constant, string) is the class of the evaluator of the neural network analysis.
-	%  <strong>2</strong> <strong>NAME</strong> 	NAME (constant, string) is the name of the evaluator for the neural network analysis.
-	%  <strong>3</strong> <strong>DESCRIPTION</strong> 	DESCRIPTION (constant, string) is the description of the evaluator for the neural network analysis.
-	%  <strong>4</strong> <strong>TEMPLATE</strong> 	TEMPLATE (parameter, item) is the template of the evaluator for the neural network analysis.
-	%  <strong>5</strong> <strong>ID</strong> 	ID (data, string) is a few-letter code for the evaluator for the neural network analysis.
-	%  <strong>6</strong> <strong>LABEL</strong> 	LABEL (metadata, string) is an extended label of the evaluator for the neural network analysis.
-	%  <strong>7</strong> <strong>NOTES</strong> 	NOTES (metadata, string) are some specific notes about the evaluator for the neural network analysis.
+	%  <strong>1</strong> <strong>ELCLASS</strong> 	ELCLASS (constant, string) is the class of the variational autoencoder evaluator.
+	%  <strong>2</strong> <strong>NAME</strong> 	NAME (constant, string) is the name of the variational autoencoder evaluator.
+	%  <strong>3</strong> <strong>DESCRIPTION</strong> 	DESCRIPTION (constant, string) is the description of the variational autoencoder evaluator.
+	%  <strong>4</strong> <strong>TEMPLATE</strong> 	TEMPLATE (parameter, item) is the template of the variational autoencoder evaluator.
+	%  <strong>5</strong> <strong>ID</strong> 	ID (data, string) is a few-letter code for the variational autoencoder evaluator.
+	%  <strong>6</strong> <strong>LABEL</strong> 	LABEL (metadata, string) is an extended label of the variational autoencoder evaluator.
+	%  <strong>7</strong> <strong>NOTES</strong> 	NOTES (metadata, string) are some specific notes about the variational autoencoder evaluator.
 	%  <strong>8</strong> <strong>TOSTRING</strong> 	TOSTRING (query, string) returns a string that represents the concrete element.
 	%  <strong>9</strong> <strong>NN</strong> 	NN (data, item) contains a trained neural network model.
 	%  <strong>10</strong> <strong>D</strong> 	D (data, item) is the dataset to evaluate the neural network model.
-	%  <strong>11</strong> <strong>PLOT_LATENT_REPRESENTATIONS</strong> 	PLOT_LATENT_REPRESENTATIONS (query, empty) is to plot latetn representations.
-	%  <strong>12</strong> <strong>PREDICT_ENCODER</strong> 	PREDICT_ENCODER (query, cell) returns the predictions of an encoder.
+	%  <strong>11</strong> <strong>TARGET_NAME</strong> 	TARGET_NAME (metadata, string) is the name of the variable of interest used to label or colour the latent-space plot.
+	%  <strong>12</strong> <strong>LATENT_DIM_X</strong> 	LATENT_DIM_X (parameter, scalar) is the latent dimension shown on the x-axis.
+	%  <strong>13</strong> <strong>LATENT_DIM_Y</strong> 	LATENT_DIM_Y (parameter, scalar) is the latent dimension shown on the y-axis.
+	%  <strong>14</strong> <strong>SAVE_DIR</strong> 	SAVE_DIR (metadata, string) is the directory where evaluation outputs are saved.
 	%
 	% NNVariationalAutoencoderEvaluator methods (constructor):
 	%  NNVariationalAutoencoderEvaluator - constructor
@@ -39,33 +38,33 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 	%  unchecked - sets a property to NOT checked
 	%
 	% NNVariationalAutoencoderEvaluator methods (display):
-	%  tostring - string with information about the neural network evaluator
-	%  disp - displays information about the neural network evaluator
-	%  tree - displays the tree of the neural network evaluator
+	%  tostring - string with information about the variational autoencoder evaluator
+	%  disp - displays information about the variational autoencoder evaluator
+	%  tree - displays the tree of the variational autoencoder evaluator
 	%
 	% NNVariationalAutoencoderEvaluator methods (miscellanea):
 	%  getNoValue - returns a pointer to a persistent instance of NoValue
 	%               Use it as Element.getNoValue()
 	%  getCallback - returns the callback to a property
-	%  isequal - determines whether two neural network evaluator are equal (values, locked)
+	%  isequal - determines whether two variational autoencoder evaluator are equal (values, locked)
 	%  getElementList - returns a list with all subelements
-	%  copy - copies the neural network evaluator
+	%  copy - copies the variational autoencoder evaluator
 	%
 	% NNVariationalAutoencoderEvaluator methods (save/load, Static):
-	%  save - saves BRAPH2 neural network evaluator as b2 file
-	%  load - loads a BRAPH2 neural network evaluator from a b2 file
+	%  save - saves BRAPH2 variational autoencoder evaluator as b2 file
+	%  load - loads a BRAPH2 variational autoencoder evaluator from a b2 file
 	%
 	% NNVariationalAutoencoderEvaluator method (JSON encode):
-	%  encodeJSON - returns a JSON string encoding the neural network evaluator
+	%  encodeJSON - returns a JSON string encoding the variational autoencoder evaluator
 	%
 	% NNVariationalAutoencoderEvaluator method (JSON decode, Static):
-	%   decodeJSON - returns a JSON string encoding the neural network evaluator
+	%   decodeJSON - returns a JSON string encoding the variational autoencoder evaluator
 	%
 	% NNVariationalAutoencoderEvaluator methods (inspection, Static):
-	%  getClass - returns the class of the neural network evaluator
+	%  getClass - returns the class of the variational autoencoder evaluator
 	%  getSubclasses - returns all subclasses of NNVariationalAutoencoderEvaluator
-	%  getProps - returns the property list of the neural network evaluator
-	%  getPropNumber - returns the property number of the neural network evaluator
+	%  getProps - returns the property list of the variational autoencoder evaluator
+	%  getPropNumber - returns the property number of the variational autoencoder evaluator
 	%  existsProp - checks whether property exists/error
 	%  existsTag - checks whether tag exists/error
 	%  getPropProp - returns the property number of a property
@@ -107,24 +106,34 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 	% To print full list of constants, click here <a href="matlab:metaclass = ?NNVariationalAutoencoderEvaluator; properties = metaclass.PropertyList;for i = 1:1:length(properties), if properties(i).Constant, disp([properties(i).Name newline() tostring(properties(i).DefaultValue) newline()]), end, end">NNVariationalAutoencoderEvaluator constants</a>.
 	%
 	%
-	% See also NNDataPoint, NNDataset, NNBase.
+	% See also NNEvaluator, NNVariationalAutoencoderMLP, NNDataset, NNDataPoint, NNBase.
 	%
 	% BUILD BRAPH2 7 class_name 1
 	
 	properties (Constant) % properties
-		PLOT_LATENT_REPRESENTATIONS = 11; %CET: Computational Efficiency Trick
-		PLOT_LATENT_REPRESENTATIONS_TAG = 'PLOT_LATENT_REPRESENTATIONS';
-		PLOT_LATENT_REPRESENTATIONS_CATEGORY = 6;
-		PLOT_LATENT_REPRESENTATIONS_FORMAT = 1;
+		TARGET_NAME = 11; %CET: Computational Efficiency Trick
+		TARGET_NAME_TAG = 'TARGET_NAME';
+		TARGET_NAME_CATEGORY = 2;
+		TARGET_NAME_FORMAT = 2;
 		
-		PREDICT_ENCODER = 12; %CET: Computational Efficiency Trick
-		PREDICT_ENCODER_TAG = 'PREDICT_ENCODER';
-		PREDICT_ENCODER_CATEGORY = 6;
-		PREDICT_ENCODER_FORMAT = 16;
+		LATENT_DIM_X = 12; %CET: Computational Efficiency Trick
+		LATENT_DIM_X_TAG = 'LATENT_DIM_X';
+		LATENT_DIM_X_CATEGORY = 3;
+		LATENT_DIM_X_FORMAT = 11;
+		
+		LATENT_DIM_Y = 13; %CET: Computational Efficiency Trick
+		LATENT_DIM_Y_TAG = 'LATENT_DIM_Y';
+		LATENT_DIM_Y_CATEGORY = 3;
+		LATENT_DIM_Y_FORMAT = 11;
+		
+		SAVE_DIR = 14; %CET: Computational Efficiency Trick
+		SAVE_DIR_TAG = 'SAVE_DIR';
+		SAVE_DIR_CATEGORY = 2;
+		SAVE_DIR_FORMAT = 2;
 	end
 	methods % constructor
 		function nne = NNVariationalAutoencoderEvaluator(varargin)
-			%NNVariationalAutoencoderEvaluator() creates a neural network evaluator.
+			%NNVariationalAutoencoderEvaluator() creates a variational autoencoder evaluator.
 			%
 			% NNVariationalAutoencoderEvaluator(PROP, VALUE, ...) with property PROP initialized to VALUE.
 			%
@@ -134,18 +143,20 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			%  them with either property numbers (PROP) or tags (TAG).
 			%
 			% The list of NNVariationalAutoencoderEvaluator properties is:
-			%  <strong>1</strong> <strong>ELCLASS</strong> 	ELCLASS (constant, string) is the class of the evaluator of the neural network analysis.
-			%  <strong>2</strong> <strong>NAME</strong> 	NAME (constant, string) is the name of the evaluator for the neural network analysis.
-			%  <strong>3</strong> <strong>DESCRIPTION</strong> 	DESCRIPTION (constant, string) is the description of the evaluator for the neural network analysis.
-			%  <strong>4</strong> <strong>TEMPLATE</strong> 	TEMPLATE (parameter, item) is the template of the evaluator for the neural network analysis.
-			%  <strong>5</strong> <strong>ID</strong> 	ID (data, string) is a few-letter code for the evaluator for the neural network analysis.
-			%  <strong>6</strong> <strong>LABEL</strong> 	LABEL (metadata, string) is an extended label of the evaluator for the neural network analysis.
-			%  <strong>7</strong> <strong>NOTES</strong> 	NOTES (metadata, string) are some specific notes about the evaluator for the neural network analysis.
+			%  <strong>1</strong> <strong>ELCLASS</strong> 	ELCLASS (constant, string) is the class of the variational autoencoder evaluator.
+			%  <strong>2</strong> <strong>NAME</strong> 	NAME (constant, string) is the name of the variational autoencoder evaluator.
+			%  <strong>3</strong> <strong>DESCRIPTION</strong> 	DESCRIPTION (constant, string) is the description of the variational autoencoder evaluator.
+			%  <strong>4</strong> <strong>TEMPLATE</strong> 	TEMPLATE (parameter, item) is the template of the variational autoencoder evaluator.
+			%  <strong>5</strong> <strong>ID</strong> 	ID (data, string) is a few-letter code for the variational autoencoder evaluator.
+			%  <strong>6</strong> <strong>LABEL</strong> 	LABEL (metadata, string) is an extended label of the variational autoencoder evaluator.
+			%  <strong>7</strong> <strong>NOTES</strong> 	NOTES (metadata, string) are some specific notes about the variational autoencoder evaluator.
 			%  <strong>8</strong> <strong>TOSTRING</strong> 	TOSTRING (query, string) returns a string that represents the concrete element.
 			%  <strong>9</strong> <strong>NN</strong> 	NN (data, item) contains a trained neural network model.
 			%  <strong>10</strong> <strong>D</strong> 	D (data, item) is the dataset to evaluate the neural network model.
-			%  <strong>11</strong> <strong>PLOT_LATENT_REPRESENTATIONS</strong> 	PLOT_LATENT_REPRESENTATIONS (query, empty) is to plot latetn representations.
-			%  <strong>12</strong> <strong>PREDICT_ENCODER</strong> 	PREDICT_ENCODER (query, cell) returns the predictions of an encoder.
+			%  <strong>11</strong> <strong>TARGET_NAME</strong> 	TARGET_NAME (metadata, string) is the name of the variable of interest used to label or colour the latent-space plot.
+			%  <strong>12</strong> <strong>LATENT_DIM_X</strong> 	LATENT_DIM_X (parameter, scalar) is the latent dimension shown on the x-axis.
+			%  <strong>13</strong> <strong>LATENT_DIM_Y</strong> 	LATENT_DIM_Y (parameter, scalar) is the latent dimension shown on the y-axis.
+			%  <strong>14</strong> <strong>SAVE_DIR</strong> 	SAVE_DIR (metadata, string) is the directory where evaluation outputs are saved.
 			%
 			% See also Category, Format.
 			
@@ -154,12 +165,12 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 	end
 	methods (Static) % inspection
 		function build = getBuild()
-			%GETBUILD returns the build of the neural network evaluator.
+			%GETBUILD returns the build of the variational autoencoder evaluator.
 			%
 			% BUILD = NNVariationalAutoencoderEvaluator.GETBUILD() returns the build of 'NNVariationalAutoencoderEvaluator'.
 			%
 			% Alternative forms to call this method are:
-			%  BUILD = NNE.GETBUILD() returns the build of the neural network evaluator NNE.
+			%  BUILD = NNE.GETBUILD() returns the build of the variational autoencoder evaluator NNE.
 			%  BUILD = Element.GETBUILD(NNE) returns the build of 'NNE'.
 			%  BUILD = Element.GETBUILD('NNVariationalAutoencoderEvaluator') returns the build of 'NNVariationalAutoencoderEvaluator'.
 			%
@@ -169,12 +180,12 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			build = 1;
 		end
 		function nne_class = getClass()
-			%GETCLASS returns the class of the neural network evaluator.
+			%GETCLASS returns the class of the variational autoencoder evaluator.
 			%
 			% CLASS = NNVariationalAutoencoderEvaluator.GETCLASS() returns the class 'NNVariationalAutoencoderEvaluator'.
 			%
 			% Alternative forms to call this method are:
-			%  CLASS = NNE.GETCLASS() returns the class of the neural network evaluator NNE.
+			%  CLASS = NNE.GETCLASS() returns the class of the variational autoencoder evaluator NNE.
 			%  CLASS = Element.GETCLASS(NNE) returns the class of 'NNE'.
 			%  CLASS = Element.GETCLASS('NNVariationalAutoencoderEvaluator') returns 'NNVariationalAutoencoderEvaluator'.
 			%
@@ -184,12 +195,12 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			nne_class = 'NNVariationalAutoencoderEvaluator';
 		end
 		function subclass_list = getSubclasses()
-			%GETSUBCLASSES returns all subclasses of the neural network evaluator.
+			%GETSUBCLASSES returns all subclasses of the variational autoencoder evaluator.
 			%
 			% LIST = NNVariationalAutoencoderEvaluator.GETSUBCLASSES() returns all subclasses of 'NNVariationalAutoencoderEvaluator'.
 			%
 			% Alternative forms to call this method are:
-			%  LIST = NNE.GETSUBCLASSES() returns all subclasses of the neural network evaluator NNE.
+			%  LIST = NNE.GETSUBCLASSES() returns all subclasses of the variational autoencoder evaluator NNE.
 			%  LIST = Element.GETSUBCLASSES(NNE) returns all subclasses of 'NNE'.
 			%  LIST = Element.GETSUBCLASSES('NNVariationalAutoencoderEvaluator') returns all subclasses of 'NNVariationalAutoencoderEvaluator'.
 			%
@@ -198,19 +209,19 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			%
 			% See also subclasses.
 			
-			subclass_list = { 'NNVariationalAutoencoderEvaluator'  'NNVariationalAutoencoderEvaluator_Image' }; %CET: Computational Efficiency Trick
+			subclass_list = { 'NNVariationalAutoencoderEvaluator'  'NNVariationalAutoencoderEvaluator_Structural'  'NNVariationalAutoencoderEvaluator_Image' }; %CET: Computational Efficiency Trick
 		end
 		function prop_list = getProps(category)
-			%GETPROPS returns the property list of neural network evaluator.
+			%GETPROPS returns the property list of variational autoencoder evaluator.
 			%
-			% PROPS = NNVariationalAutoencoderEvaluator.GETPROPS() returns the property list of neural network evaluator
+			% PROPS = NNVariationalAutoencoderEvaluator.GETPROPS() returns the property list of variational autoencoder evaluator
 			%  as a row vector.
 			%
 			% PROPS = NNVariationalAutoencoderEvaluator.GETPROPS(CATEGORY) returns the property list 
 			%  of category CATEGORY.
 			%
 			% Alternative forms to call this method are:
-			%  PROPS = NNE.GETPROPS([CATEGORY]) returns the property list of the neural network evaluator NNE.
+			%  PROPS = NNE.GETPROPS([CATEGORY]) returns the property list of the variational autoencoder evaluator NNE.
 			%  PROPS = Element.GETPROPS(NNE[, CATEGORY]) returns the property list of 'NNE'.
 			%  PROPS = Element.GETPROPS('NNVariationalAutoencoderEvaluator'[, CATEGORY]) returns the property list of 'NNVariationalAutoencoderEvaluator'.
 			%
@@ -222,7 +233,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			%CET: Computational Efficiency Trick
 			
 			if nargin == 0
-				prop_list = [1 2 3 4 5 6 7 8 9 10 11 12];
+				prop_list = [1 2 3 4 5 6 7 8 9 10 11 12 13 14];
 				return
 			end
 			
@@ -230,27 +241,27 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 				case 1 % Category.CONSTANT
 					prop_list = [1 2 3];
 				case 2 % Category.METADATA
-					prop_list = [6 7];
+					prop_list = [6 7 11 14];
 				case 3 % Category.PARAMETER
-					prop_list = 4;
+					prop_list = [4 12 13];
 				case 4 % Category.DATA
 					prop_list = [5 9 10];
 				case 6 % Category.QUERY
-					prop_list = [8 11 12];
+					prop_list = 8;
 				otherwise
 					prop_list = [];
 			end
 		end
 		function prop_number = getPropNumber(varargin)
-			%GETPROPNUMBER returns the property number of neural network evaluator.
+			%GETPROPNUMBER returns the property number of variational autoencoder evaluator.
 			%
-			% N = NNVariationalAutoencoderEvaluator.GETPROPNUMBER() returns the property number of neural network evaluator.
+			% N = NNVariationalAutoencoderEvaluator.GETPROPNUMBER() returns the property number of variational autoencoder evaluator.
 			%
-			% N = NNVariationalAutoencoderEvaluator.GETPROPNUMBER(CATEGORY) returns the property number of neural network evaluator
+			% N = NNVariationalAutoencoderEvaluator.GETPROPNUMBER(CATEGORY) returns the property number of variational autoencoder evaluator
 			%  of category CATEGORY
 			%
 			% Alternative forms to call this method are:
-			%  N = NNE.GETPROPNUMBER([CATEGORY]) returns the property number of the neural network evaluator NNE.
+			%  N = NNE.GETPROPNUMBER([CATEGORY]) returns the property number of the variational autoencoder evaluator NNE.
 			%  N = Element.GETPROPNUMBER(NNE) returns the property number of 'NNE'.
 			%  N = Element.GETPROPNUMBER('NNVariationalAutoencoderEvaluator') returns the property number of 'NNVariationalAutoencoderEvaluator'.
 			%
@@ -262,7 +273,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			%CET: Computational Efficiency Trick
 			
 			if nargin == 0
-				prop_number = 12;
+				prop_number = 14;
 				return
 			end
 			
@@ -270,19 +281,19 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 				case 1 % Category.CONSTANT
 					prop_number = 3;
 				case 2 % Category.METADATA
-					prop_number = 2;
+					prop_number = 4;
 				case 3 % Category.PARAMETER
-					prop_number = 1;
+					prop_number = 3;
 				case 4 % Category.DATA
 					prop_number = 3;
 				case 6 % Category.QUERY
-					prop_number = 3;
+					prop_number = 1;
 				otherwise
 					prop_number = 0;
 			end
 		end
 		function check_out = existsProp(prop)
-			%EXISTSPROP checks whether property exists in neural network evaluator/error.
+			%EXISTSPROP checks whether property exists in variational autoencoder evaluator/error.
 			%
 			% CHECK = NNVariationalAutoencoderEvaluator.EXISTSPROP(PROP) checks whether the property PROP exists.
 			%
@@ -307,7 +318,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			%
 			% See also getProps, existsTag.
 			
-			check = prop >= 1 && prop <= 12 && round(prop) == prop; %CET: Computational Efficiency Trick
+			check = prop >= 1 && prop <= 14 && round(prop) == prop; %CET: Computational Efficiency Trick
 			
 			if nargout == 1
 				check_out = check;
@@ -320,7 +331,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			end
 		end
 		function check_out = existsTag(tag)
-			%EXISTSTAG checks whether tag exists in neural network evaluator/error.
+			%EXISTSTAG checks whether tag exists in variational autoencoder evaluator/error.
 			%
 			% CHECK = NNVariationalAutoencoderEvaluator.EXISTSTAG(TAG) checks whether a property with tag TAG exists.
 			%
@@ -345,7 +356,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			%
 			% See also getProps, existsTag.
 			
-			check = any(strcmp(tag, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'NN'  'D'  'PLOT_LATENT_REPRESENTATIONS'  'PREDICT_ENCODER' })); %CET: Computational Efficiency Trick
+			check = any(strcmp(tag, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'NN'  'D'  'TARGET_NAME'  'LATENT_DIM_X'  'LATENT_DIM_Y'  'SAVE_DIR' })); %CET: Computational Efficiency Trick
 			
 			if nargout == 1
 				check_out = check;
@@ -378,7 +389,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			%  getPropSettings, getPropDefault, checkProp.
 			
 			if ischar(pointer)
-				prop = find(strcmp(pointer, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'NN'  'D'  'PLOT_LATENT_REPRESENTATIONS'  'PREDICT_ENCODER' })); % tag = pointer %CET: Computational Efficiency Trick
+				prop = find(strcmp(pointer, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'NN'  'D'  'TARGET_NAME'  'LATENT_DIM_X'  'LATENT_DIM_Y'  'SAVE_DIR' })); % tag = pointer %CET: Computational Efficiency Trick
 			else % numeric
 				prop = pointer;
 			end
@@ -407,7 +418,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 				tag = pointer;
 			else % numeric
 				%CET: Computational Efficiency Trick
-				nnvariationalautoencoderevaluator_tag_list = { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'NN'  'D'  'PLOT_LATENT_REPRESENTATIONS'  'PREDICT_ENCODER' };
+				nnvariationalautoencoderevaluator_tag_list = { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'NN'  'D'  'TARGET_NAME'  'LATENT_DIM_X'  'LATENT_DIM_Y'  'SAVE_DIR' };
 				tag = nnvariationalautoencoderevaluator_tag_list{pointer}; % prop = pointer
 			end
 		end
@@ -434,7 +445,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			prop = NNVariationalAutoencoderEvaluator.getPropProp(pointer);
 			
 			%CET: Computational Efficiency Trick
-			nnvariationalautoencoderevaluator_category_list = { 1  1  1  3  4  2  2  6  4  4  6  6 };
+			nnvariationalautoencoderevaluator_category_list = { 1  1  1  3  4  2  2  6  4  4  2  3  3  2 };
 			prop_category = nnvariationalautoencoderevaluator_category_list{prop};
 		end
 		function prop_format = getPropFormat(pointer)
@@ -460,7 +471,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			prop = NNVariationalAutoencoderEvaluator.getPropProp(pointer);
 			
 			%CET: Computational Efficiency Trick
-			nnvariationalautoencoderevaluator_format_list = { 2  2  2  8  2  2  2  2  8  8  1  16 };
+			nnvariationalautoencoderevaluator_format_list = { 2  2  2  8  2  2  2  2  8  8  2  11  11  2 };
 			prop_format = nnvariationalautoencoderevaluator_format_list{prop};
 		end
 		function prop_description = getPropDescription(pointer)
@@ -486,7 +497,7 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			prop = NNVariationalAutoencoderEvaluator.getPropProp(pointer);
 			
 			%CET: Computational Efficiency Trick
-			nnvariationalautoencoderevaluator_description_list = { 'ELCLASS (constant, string) is the class of the evaluator of the neural network analysis.'  'NAME (constant, string) is the name of the evaluator for the neural network analysis.'  'DESCRIPTION (constant, string) is the description of the evaluator for the neural network analysis.'  'TEMPLATE (parameter, item) is the template of the evaluator for the neural network analysis.'  'ID (data, string) is a few-letter code for the evaluator for the neural network analysis.'  'LABEL (metadata, string) is an extended label of the evaluator for the neural network analysis.'  'NOTES (metadata, string) are some specific notes about the evaluator for the neural network analysis.'  'TOSTRING (query, string) returns a string that represents the concrete element.'  'NN (data, item) contains a trained neural network model.'  'D (data, item) is the dataset to evaluate the neural network model.'  'PLOT_LATENT_REPRESENTATIONS (query, empty) is to plot latetn representations.'  'PREDICT_ENCODER (query, cell) returns the predictions of an encoder.' };
+			nnvariationalautoencoderevaluator_description_list = { 'ELCLASS (constant, string) is the class of the variational autoencoder evaluator.'  'NAME (constant, string) is the name of the variational autoencoder evaluator.'  'DESCRIPTION (constant, string) is the description of the variational autoencoder evaluator.'  'TEMPLATE (parameter, item) is the template of the variational autoencoder evaluator.'  'ID (data, string) is a few-letter code for the variational autoencoder evaluator.'  'LABEL (metadata, string) is an extended label of the variational autoencoder evaluator.'  'NOTES (metadata, string) are some specific notes about the variational autoencoder evaluator.'  'TOSTRING (query, string) returns a string that represents the concrete element.'  'NN (data, item) contains a trained neural network model.'  'D (data, item) is the dataset to evaluate the neural network model.'  'TARGET_NAME (metadata, string) is the name of the variable of interest used to label or colour the latent-space plot.'  'LATENT_DIM_X (parameter, scalar) is the latent dimension shown on the x-axis.'  'LATENT_DIM_Y (parameter, scalar) is the latent dimension shown on the y-axis.'  'SAVE_DIR (metadata, string) is the directory where evaluation outputs are saved.' };
 			prop_description = nnvariationalautoencoderevaluator_description_list{prop};
 		end
 		function prop_settings = getPropSettings(pointer)
@@ -512,11 +523,15 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			prop = NNVariationalAutoencoderEvaluator.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case 11 % NNVariationalAutoencoderEvaluator.PLOT_LATENT_REPRESENTATIONS
-					prop_settings = Format.getFormatSettings(1);
-				case 12 % NNVariationalAutoencoderEvaluator.PREDICT_ENCODER
-					prop_settings = Format.getFormatSettings(16);
-				case 4 % NNVariationalAutoencoderEvaluator.TEMPLATE
+				case NNVariationalAutoencoderEvaluator.TARGET_NAME % __NNVariationalAutoencoderEvaluator.TARGET_NAME__
+					prop_settings = Format.getFormatSettings(2);
+				case NNVariationalAutoencoderEvaluator.LATENT_DIM_X % __NNVariationalAutoencoderEvaluator.LATENT_DIM_X__
+					prop_settings = Format.getFormatSettings(11);
+				case NNVariationalAutoencoderEvaluator.LATENT_DIM_Y % __NNVariationalAutoencoderEvaluator.LATENT_DIM_Y__
+					prop_settings = Format.getFormatSettings(11);
+				case NNVariationalAutoencoderEvaluator.SAVE_DIR % __NNVariationalAutoencoderEvaluator.SAVE_DIR__
+					prop_settings = Format.getFormatSettings(2);
+				case NNVariationalAutoencoderEvaluator.TEMPLATE % __NNVariationalAutoencoderEvaluator.TEMPLATE__
 					prop_settings = 'NNVariationalAutoencoderEvaluator';
 				otherwise
 					prop_settings = getPropSettings@NNEvaluator(prop);
@@ -545,24 +560,28 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			prop = NNVariationalAutoencoderEvaluator.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case 11 % NNVariationalAutoencoderEvaluator.PLOT_LATENT_REPRESENTATIONS
-					prop_default = Format.getFormatDefault(1, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
-				case 12 % NNVariationalAutoencoderEvaluator.PREDICT_ENCODER
-					prop_default = Format.getFormatDefault(16, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
-				case 1 % NNVariationalAutoencoderEvaluator.ELCLASS
+				case NNVariationalAutoencoderEvaluator.TARGET_NAME % __NNVariationalAutoencoderEvaluator.TARGET_NAME__
+					prop_default = 'group';
+				case NNVariationalAutoencoderEvaluator.LATENT_DIM_X % __NNVariationalAutoencoderEvaluator.LATENT_DIM_X__
+					prop_default = 1;
+				case NNVariationalAutoencoderEvaluator.LATENT_DIM_Y % __NNVariationalAutoencoderEvaluator.LATENT_DIM_Y__
+					prop_default = 2;
+				case NNVariationalAutoencoderEvaluator.SAVE_DIR % __NNVariationalAutoencoderEvaluator.SAVE_DIR__
+					prop_default = '';
+				case NNVariationalAutoencoderEvaluator.ELCLASS % __NNVariationalAutoencoderEvaluator.ELCLASS__
 					prop_default = 'NNVariationalAutoencoderEvaluator';
-				case 2 % NNVariationalAutoencoderEvaluator.NAME
-					prop_default = 'Neural Network Evaluator';
-				case 3 % NNVariationalAutoencoderEvaluator.DESCRIPTION
-					prop_default = 'A neural network evaluator (NNEvaluator) evaluates the performance of a neural network model with a specific dataset. Instances of this class should not be created. Use one of its subclasses instead. Its subclasses shall be specifically designed to cater to different evaluation cases such as a classification task, a regression task, or a data generation task.';
-				case 4 % NNVariationalAutoencoderEvaluator.TEMPLATE
+				case NNVariationalAutoencoderEvaluator.NAME % __NNVariationalAutoencoderEvaluator.NAME__
+					prop_default = 'Variational Autoencoder Evaluator';
+				case NNVariationalAutoencoderEvaluator.DESCRIPTION % __NNVariationalAutoencoderEvaluator.DESCRIPTION__
+					prop_default = 'A variational autoencoder evaluator (NNVariationalAutoencoderEvaluator) provides common evaluation utilities for trained variational autoencoders. It stores the trained neural network and dataset used for evaluation. Specific subclasses implement evaluation workflows such as latent-space visualisation for structural data or latent-continuity visualisation for image data.';
+				case NNVariationalAutoencoderEvaluator.TEMPLATE % __NNVariationalAutoencoderEvaluator.TEMPLATE__
 					prop_default = Format.getFormatDefault(8, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
-				case 5 % NNVariationalAutoencoderEvaluator.ID
-					prop_default = 'NNEvaluator ID';
-				case 6 % NNVariationalAutoencoderEvaluator.LABEL
-					prop_default = 'NNEvaluator label';
-				case 7 % NNVariationalAutoencoderEvaluator.NOTES
-					prop_default = 'NNEvaluator notes';
+				case NNVariationalAutoencoderEvaluator.ID % __NNVariationalAutoencoderEvaluator.ID__
+					prop_default = 'NNVariationalAutoencoderEvaluator ID';
+				case NNVariationalAutoencoderEvaluator.LABEL % __NNVariationalAutoencoderEvaluator.LABEL__
+					prop_default = 'NNVariationalAutoencoderEvaluator label';
+				case NNVariationalAutoencoderEvaluator.NOTES % __NNVariationalAutoencoderEvaluator.NOTES__
+					prop_default = 'NNVariationalAutoencoderEvaluator notes';
 				otherwise
 					prop_default = getPropDefault@NNEvaluator(prop);
 			end
@@ -627,11 +646,15 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 			prop = NNVariationalAutoencoderEvaluator.getPropProp(pointer);
 			
 			switch prop
-				case 11 % NNVariationalAutoencoderEvaluator.PLOT_LATENT_REPRESENTATIONS
-					check = Format.checkFormat(1, value, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
-				case 12 % NNVariationalAutoencoderEvaluator.PREDICT_ENCODER
-					check = Format.checkFormat(16, value, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
-				case 4 % NNVariationalAutoencoderEvaluator.TEMPLATE
+				case NNVariationalAutoencoderEvaluator.TARGET_NAME % __NNVariationalAutoencoderEvaluator.TARGET_NAME__
+					check = Format.checkFormat(2, value, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
+				case NNVariationalAutoencoderEvaluator.LATENT_DIM_X % __NNVariationalAutoencoderEvaluator.LATENT_DIM_X__
+					check = Format.checkFormat(11, value, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
+				case NNVariationalAutoencoderEvaluator.LATENT_DIM_Y % __NNVariationalAutoencoderEvaluator.LATENT_DIM_Y__
+					check = Format.checkFormat(11, value, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
+				case NNVariationalAutoencoderEvaluator.SAVE_DIR % __NNVariationalAutoencoderEvaluator.SAVE_DIR__
+					check = Format.checkFormat(2, value, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
+				case NNVariationalAutoencoderEvaluator.TEMPLATE % __NNVariationalAutoencoderEvaluator.TEMPLATE__
 					check = Format.checkFormat(8, value, NNVariationalAutoencoderEvaluator.getPropSettings(prop));
 				otherwise
 					if prop <= 10
@@ -648,87 +671,6 @@ classdef NNVariationalAutoencoderEvaluator < NNEvaluator
 					'The value ' tostring(value, 100, ' ...') ' is not a valid property ' NNVariationalAutoencoderEvaluator.getPropTag(prop) ' (' NNVariationalAutoencoderEvaluator.getFormatTag(NNVariationalAutoencoderEvaluator.getPropFormat(prop)) ').'] ...
 					)
 			end
-		end
-	end
-	methods (Access=protected) % calculate value
-		function value = calculateValue(nne, prop, varargin)
-			%CALCULATEVALUE calculates the value of a property.
-			%
-			% VALUE = CALCULATEVALUE(EL, PROP) calculates the value of the property
-			%  PROP. It works only with properties with 5,
-			%  6, and 7. By default this function
-			%  returns the default value for the prop and should be implemented in the
-			%  subclasses of Element when needed.
-			%
-			% VALUE = CALCULATEVALUE(EL, PROP, VARARGIN) works with properties with
-			%  6.
-			%
-			% See also getPropDefaultConditioned, conditioning, preset, checkProp,
-			%  postset, postprocessing, checkValue.
-			
-			switch prop
-				case 11 % NNVariationalAutoencoderEvaluator.PLOT_LATENT_REPRESENTATIONS
-					nnvae = nne.get('NN');
-					if strcmp(class(nnvae), 'NNBase')
-					    value = [];
-					    return
-					end
-					netE = nnvae.get('ENCODER');
-					d = nne.get('D');
-					mbq = nnvae.get('MBQ', d);
-					
-					latentInfo = nne.get('PREDICT_ENCODER', netE, mbq);
-					ZLatent = latentInfo{1};
-					YLatent = latentInfo{2};
-					%index_selected = (YLatent == 2) | (YLatent == 1) | (YLatent == 10) | (YLatent == 8) | (YLatent == 3);
-					
-					%figure;
-					%h = scatter(ZLatent(1, index_selected), ZLatent(2, index_selected), 30, YLatent(index_selected), 'filled');
-					h = gscatter(ZLatent(1, :), ZLatent(2, :), YLatent, [], '.', 12);
-					
-					title('Scatter Plot with Color-Coded Categories');
-					value = [];
-					
-				case 12 % NNVariationalAutoencoderEvaluator.PREDICT_ENCODER
-					if isempty(varargin)
-					    value = {};
-					    return
-					end
-					
-					netE = varargin{1};
-					mbq = varargin{2};
-					
-					targets = categorical(nne.get('NN').get('TARGETS', nne.get('D')));
-					Z = [];
-					Y = [];
-					
-					% Loop over mini-batches.
-					while hasdata(mbq)
-					    [X_individual, Y_individual] = next(mbq);
-					
-					    % Forward through encoder.
-					    %Z_individual = predict(netE,X_individual,Outputs='latentOuput');
-					    [Z_individual, mu, logSigmaSq] = predict(netE, X_individual);
-					    
-					    % Extract and concatenate predictions.
-					    %Z = cat(2,Z,extractdata(Z_individual));
-					    Z = cat(2, Z, extractdata(mu));
-					
-					    Y_individual = extractdata(gather(Y_individual));
-					    Y_number = targets(Y_individual);
-					    Y = cat(1, Y, Y_number);
-					end
-					
-					value = [{Z}, {Y}];
-					
-				otherwise
-					if prop <= 10
-						value = calculateValue@NNEvaluator(nne, prop, varargin{:});
-					else
-						value = calculateValue@Element(nne, prop, varargin{:});
-					end
-			end
-			
 		end
 	end
 end

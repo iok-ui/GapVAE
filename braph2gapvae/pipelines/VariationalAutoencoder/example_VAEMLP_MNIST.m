@@ -1,5 +1,6 @@
-%% EXAMPLE_NNCV_CON_BUD_M_CLA
-% Script example pipeline for NN regression cross-validation with input of GraphBUD measures derived from SubjectCON 
+%EXAMPLE_VAEMLP_MNIST
+% Script example pipeline for training and evaluating a multilayer perceptron
+% using the MNIST image dataset.
 
 clear variables %#ok<*NASGU>
 
@@ -19,11 +20,15 @@ d_test = d_split.get('D_LIST_IT', 2);
 nnvae = NNVariationalAutoencoderMLP('D', d_training, 'EPOCHS', 10, 'BATCH', 128);
 nnvae.get('TRAIN')
 
-%% Evaluate and Visualize Latent Space
-nne = NNVariationalAutoencoderEvaluator_Image('NN', nnvae, 'D', d_test);
+%% Evaluate and visualise latent space
+nne = NNVariationalAutoencoderEvaluator_Image( ...
+    'NN', nnvae, ...
+    'D', d_test, ...
+    'SAVE_DIR', [fileparts(which('NNDatasetProcess_MNIST')) filesep 'figures'] ... 
+    );
+
 figure
 nne.get('PLOT_LATENT_REPRESENTATIONS')
 
-%%
 figure
 nne.get('PLOT_LATENT_CONTINUITY')

@@ -130,7 +130,7 @@ end
 %%% ¡prop!
 DP_CLASSES (parameter, classlist) is the list of compatible data-point classes for this variational autoencoder.
 %%%% ¡default!
-{'NNDataPoint' 'NNDataPoint_RamanSpectra' 'NNDataPoint_Image'}
+{'NNDataPoint' 'NNDataPoint_RamanSpectra' 'NNDataPoint_Image' 'NNDataPoint_Structural'}
 
 %%% ¡prop!
 INPUTS (query, cell) constructs and returns the input matrix from dataset D by flattening each input to length SIZE_INPUT and stacking column-wise.
@@ -168,7 +168,7 @@ else
 end
 
 %%% ¡prop!
-SIZE_INPUT (parameter, rvector) is the size of the input data once flattened (scalar number of features).
+SIZE_INPUT (parameter, scalar) is the size of the input data once flattened (scalar number of features).
 %%%% ¡default!
 784
 
@@ -237,7 +237,6 @@ end
 layersD = [
     layersD
     fullyConnectedLayer(numFeature)
-    leakyReluLayer(1)
     ];
 nnvae.set('DECODER', dlnetwork(layersD));
 

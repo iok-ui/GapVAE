@@ -186,7 +186,7 @@ classdef NNDatasetProcess < ConcreteElement
 			%
 			% See also subclasses.
 			
-			subclass_list = { 'NNDatasetProcess'  'NNDatasetProcess_MNIST' }; %CET: Computational Efficiency Trick
+			subclass_list = { 'NNDatasetProcess'  'NNDatasetProcess_MNIST'  'NNDatasetProcess_Tabular'  'NNDatasetProcess_Structural' }; %CET: Computational Efficiency Trick
 		end
 		function prop_list = getProps(category)
 			%GETPROPS returns the property list of processing for a neural network data.

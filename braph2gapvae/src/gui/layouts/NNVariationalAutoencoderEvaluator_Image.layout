@@ -1,0 +1,42 @@
+ELCLASS
+NaN
+NAME
+NaN
+DESCRIPTION
+NaN
+TEMPLATE
+NaN
+Evaluator ID
+1
+Evaluator Label
+2
+Evaluator Notes
+14
+TOSTRING
+NaN
+Trained VAE
+3
+Dataset
+4
+Target Variable
+5
+Latent X Dimension
+6
+Latent Y Dimension
+7
+Save Directory
+11
+Grid Size
+8
+Image Size
+9
+Latent Scale
+10
+TARGET_VALUES
+NaN
+LATENT_REPRESENTATIONS
+NaN
+Plot Latent Representations
+12
+Plot Latent Continuity
+13

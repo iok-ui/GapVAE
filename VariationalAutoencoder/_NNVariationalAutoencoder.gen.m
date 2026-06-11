@@ -196,12 +196,11 @@ DECODER (data, net) is a learnable decoder network (e.g., a dlnetwork) that maps
 %%% ¡prop!
 MBQ (query, empty) returns a configured minibatchqueue (MBQ) for training on dataset D.
 %%%% ¡calculate!
-% targets = nn.get('PREDICT', D) returns a cell array with the
-%  targets for all data points in dataset D.
 if isempty(varargin)
     value = {};
     return
 end
+
 d = varargin{1};
 num_dp = d.get('DP_DICT').get('LENGTH');
 
@@ -209,6 +208,7 @@ num_outputs = nnvae.get('NUM_MBQ_OUTPUT');
 itr = nnvae.get('ITERATION_DIM');
 format_input = string(nnvae.get('MINIBATCH_FORMAT_INPUT'));
 format_target = string(nnvae.get('MINIBATCH_FORMAT_TARGET'));
+
 if length(varargin) > 1
     miniBatchSize = varargin{2};
 else
@@ -216,9 +216,12 @@ else
 end
 
 XTrain = nnvae.get('INPUTS', d);
-%YTrain = categorical(nnvae.get('TARGETS', d));
-YTrain = 1:1:num_dp;
-YTrain = YTrain';
+
+% For VAE training, targets are not used by the loss.
+% Therefore, YTrain stores the data-point indices so evaluators can later
+% map mini-batch samples back to their VOIs.
+YTrain = 1:num_dp;
+YTrain = 1:YTrain';
 
 dsXTrain = arrayDatastore(XTrain, IterationDimension=itr);
 dsYTrain = arrayDatastore(YTrain);
@@ -232,11 +235,11 @@ value = minibatchqueue(dsTrain, num_outputs, ...
 
 %%%% ¡calculate_callbacks!
 function [X, Y] = preprocess_minibatch(XCell, YCell)
-    % Concatenate along the iteration dimension.
+    % Concatenate input data along the iteration dimension.
     itr = nnvae.get('ITERATION_DIM');
     X = cat(itr, XCell{:});
-    
-    % Extract label data from cell and concatenate.
+
+    % Return data-point indices for downstream evaluation.
     Y = cat(2, YCell{:});
 end
 
@@ -259,7 +262,10 @@ reconstructionLoss = mse(y, t);
 KL = -1/2 * sum(1 + logSigmaSq - mu.^2 - exp(logSigmaSq),1);
 KL = mean(KL);
 
+% KL weight %iokui
+beta = 0.001;  % try 0.001, 0.01, 0.05, 0.1
+
 % Negative ELBO = reconstruction + KL.
-value = reconstructionLoss + KL;
+value = reconstructionLoss + beta*KL;
 
 %% ¡tests!

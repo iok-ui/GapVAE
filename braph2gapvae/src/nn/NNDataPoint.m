@@ -193,7 +193,7 @@ classdef NNDataPoint < ConcreteElement
 			%
 			% See also subclasses.
 			
-			subclass_list = { 'NNDataPoint'  'NNDataPoint_Image' }; %CET: Computational Efficiency Trick
+			subclass_list = { 'NNDataPoint'  'NNDataPoint_Image'  'NNDataPoint_Tabular'  'NNDataPoint_Structural' }; %CET: Computational Efficiency Trick
 		end
 		function prop_list = getProps(category)
 			%GETPROPS returns the property list of neural network data point.

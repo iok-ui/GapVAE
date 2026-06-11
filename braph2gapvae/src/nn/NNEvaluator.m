@@ -193,7 +193,7 @@ classdef NNEvaluator < ConcreteElement
 			%
 			% See also subclasses.
 			
-			subclass_list = { 'NNEvaluator'  'NNVariationalAutoencoderEvaluator'  'NNVariationalAutoencoderEvaluator_Image' }; %CET: Computational Efficiency Trick
+			subclass_list = { 'NNEvaluator'  'NNClassifierMLP_Evaluator'  'NNVariationalAutoencoderEvaluator'  'NNVariationalAutoencoderEvaluator_Image' }; %CET: Computational Efficiency Trick
 		end
 		function prop_list = getProps(category)
 			%GETPROPS returns the property list of neural network evaluator.

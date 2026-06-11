@@ -1,117 +1,384 @@
 %% ¡header!
-NNVariationalAutoencoderEvaluator_Image < NNVariationalAutoencoderEvaluator (nne, neural network evaluator) evaluates the performance of a trained neural network model with a dataset.
+NNVariationalAutoencoderEvaluator_Image < NNVariationalAutoencoderEvaluator (nne, image variational autoencoder evaluator) evaluates a trained variational autoencoder with image data.
 
 %%% ¡description!
-A neural network evaluator (NNEvaluator) evaluates the performance of a neural network model with a specific dataset.
-Instances of this class should not be created. Use one of its subclasses instead.
-Its subclasses shall be specifically designed to cater to different evaluation cases such as a classification task, a regression task, or a data generation task.
+An image variational autoencoder evaluator (NNVariationalAutoencoderEvaluator_Image) evaluates a trained variational autoencoder using an image neural-network dataset. It extracts encoder latent representations, maps each data point back to its image label, and uses the decoder to visualise latent-space continuity by generating images from a regular grid of latent coordinates.
 
 %%% ¡seealso!
-NNDataPoint, NNDataset, NNBase
+NNVariationalAutoencoderEvaluator, NNVariationalAutoencoder2DCNN, NNVariationalAutoencoderMLP, NNDataset, NNDataPoint_Image
 
 %%% ¡build!
 1
 
+%% ¡layout!
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.ID
+%%%% ¡title!
+Evaluator ID
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.LABEL
+%%%% ¡title!
+Evaluator Label
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.NN
+%%%% ¡title!
+Trained VAE
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.D
+%%%% ¡title!
+Dataset
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.TARGET_NAME
+%%%% ¡title!
+Target Variable
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.LATENT_DIM_X
+%%%% ¡title!
+Latent X Dimension
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.LATENT_DIM_Y
+%%%% ¡title!
+Latent Y Dimension
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.GRID_SIZE
+%%%% ¡title!
+Grid Size
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.IMAGE_SIZE
+%%%% ¡title!
+Image Size
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.LATENT_SCALE
+%%%% ¡title!
+Latent Scale
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.SAVE_DIR
+%%%% ¡title!
+Save Directory
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.PLOT_LATENT_REPRESENTATIONS
+%%%% ¡title!
+Plot Latent Representations
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.PLOT_LATENT_CONTINUITY
+%%%% ¡title!
+Plot Latent Continuity
+
+%%% ¡prop!
+%%%% ¡id!
+NNVariationalAutoencoderEvaluator_Image.NOTES
+%%%% ¡title!
+Evaluator Notes
+
 %% ¡props_update!
 
 %%% ¡prop!
-ELCLASS (constant, string) is the class of the evaluator of the neural network analysis.
+ELCLASS (constant, string) is the class of the image variational autoencoder evaluator.
 %%%% ¡default!
 'NNVariationalAutoencoderEvaluator_Image'
 
 %%% ¡prop!
-NAME (constant, string) is the name of the evaluator for the neural network analysis.
+NAME (constant, string) is the name of the image variational autoencoder evaluator.
 %%%% ¡default!
-'Neural Network Evaluator'
+'Image Variational Autoencoder Evaluator'
 
 %%% ¡prop!
-DESCRIPTION (constant, string) is the description of the evaluator for the neural network analysis.
+DESCRIPTION (constant, string) is the description of the image variational autoencoder evaluator.
 %%%% ¡default!
-'A neural network evaluator (NNEvaluator) evaluates the performance of a neural network model with a specific dataset. Instances of this class should not be created. Use one of its subclasses instead. Its subclasses shall be specifically designed to cater to different evaluation cases such as a classification task, a regression task, or a data generation task.'
+'An image variational autoencoder evaluator (NNVariationalAutoencoderEvaluator_Image) evaluates a trained variational autoencoder using an image neural-network dataset. It extracts encoder latent representations, maps each data point back to its image label, and uses the decoder to visualise latent-space continuity by generating images from a regular grid of latent coordinates.'
 
 %%% ¡prop!
-TEMPLATE (parameter, item) is the template of the evaluator for the neural network analysis.
+TEMPLATE (parameter, item) is the template of the image variational autoencoder evaluator.
 %%%% ¡settings!
 'NNVariationalAutoencoderEvaluator_Image'
 
 %%% ¡prop!
-ID (data, string) is a few-letter code for the evaluator for the neural network analysis.
+ID (data, string) is a few-letter code for the image variational autoencoder evaluator.
 %%%% ¡default!
-'NNEvaluator ID'
+'NNVariationalAutoencoderEvaluator_Image ID'
 
 %%% ¡prop!
-LABEL (metadata, string) is an extended label of the evaluator for the neural network analysis.
+LABEL (metadata, string) is an extended label of the image variational autoencoder evaluator.
 %%%% ¡default!
-'NNEvaluator label'
+'NNVariationalAutoencoderEvaluator_Image label'
 
 %%% ¡prop!
-NOTES (metadata, string) are some specific notes about the evaluator for the neural network analysis.
+NOTES (metadata, string) are some specific notes about the image variational autoencoder evaluator.
 %%%% ¡default!
-'NNEvaluator notes'
+'NNVariationalAutoencoderEvaluator_Image notes'
 
 %% ¡props!
+
 %%% ¡prop!
-PLOT_LATENT_CONTINUITY (query, empty) is to plot latetn representations.
+GRID_SIZE (parameter, scalar) is the number of generated samples along each latent-space axis.
+%%%% ¡default!
+20
+
+%%% ¡prop!
+IMAGE_SIZE (parameter, scalar) is the size of each generated square image.
+%%%% ¡default!
+28
+
+%%% ¡prop!
+LATENT_SCALE (parameter, scalar) is the range of latent coordinates sampled from -LATENT_SCALE to LATENT_SCALE.
+%%%% ¡default!
+1
+
+%%% ¡prop!
+TARGET_VALUES (query, cell) returns target values for all image data points.
 %%%% ¡calculate!
-nnvae = nne.get('NN');
-if strcmp(class(nnvae), 'NNBase')
-    value = [];
+d = nne.get('D');
+target_name = nne.get('TARGET_NAME');
+
+if isa(d, 'NoValue') || d.get('DP_DICT').get('LENGTH') == 0
+    value = {};
     return
 end
-netD = nnvae.get('DECODER');
-n = 20;
-figsize = 15;
 
-% Display an n x n 2D manifold of data points
-digit_size = 28;
-scale = 1.0;
+dp_list = d.get('DP_DICT').get('IT_LIST');
+target_values = cell(1, numel(dp_list));
 
-% Initialize the figure
-figure = zeros(digit_size * n, digit_size * n);
+for dp_i = 1:numel(dp_list)
+    dp = dp_list{dp_i};
 
-% Linearly spaced coordinates corresponding to the 2D plot
-% of data points in the latent space
-grid_x = linspace(-scale, scale, n);
-grid_y = linspace(-scale, scale, n);
+    % Prefer VOI_DICT if the selected TARGET_NAME exists.
+    if checkprop(dp, 'VOI_DICT')
+        voi_dict = dp.get('VOI_DICT');
 
-% Reverse grid_y to match the original Python code
-grid_y = flip(grid_y);
+        if ~isempty(voi_dict.get('IT_LIST')) && any(strcmp(target_name, voi_dict.get('KEYS')))
+            target_values{dp_i} = voi_dict.get('IT', target_name).get('V');
+            continue
+        end
+    end
 
-for i = 1:n
-    for j = 1:n
-        z_sample = [grid_x(j); grid_y(i)];
-        z_sample = dlarray(z_sample,"CB");
-        x_decoded = predict(netD, z_sample);
-        digit = reshape(x_decoded, digit_size, digit_size);
-        figure(1 + (i - 1) * digit_size:i * digit_size, 1 + (j - 1) * digit_size:j * digit_size) = digit;
+    % Fallback: use the data point TARGET.
+    target = dp.get('TARGET');
+
+    if iscell(target)
+        target_values{dp_i} = target{1};
+    else
+        target_values{dp_i} = target;
     end
 end
 
-% Create the figure
+value = target_values;
 
-start_range = digit_size / 2;
-end_range = n * digit_size + start_range;
-pixel_range = start_range:digit_size:end_range;
-sample_range_x = round(grid_x, 1);
-sample_range_y = round(grid_y, 1);
+%%% ¡prop!
+LATENT_REPRESENTATIONS (query, cell) returns latent representations and target labels from the encoder.
+%%%% ¡calculate!
+nnvae = nne.get('NN');
+d = nne.get('D');
 
-xticks(pixel_range);
-xticklabels(sample_range_x);
-yticks(pixel_range);
-yticklabels(sample_range_y);
-xlabel('z[0]');
-ylabel('z[1]');
-imagesc(figure);
-colormap('gray');
+if isa(nnvae, 'NoValue') || isa(d, 'NoValue') || strcmp(class(nnvae), 'NNBase')
+    value = {};
+    return
+end
 
-% Display the plot
-axis equal;
-axis tight;
-axis off;
+if d.get('DP_DICT').get('LENGTH') == 0
+    value = {};
+    return
+end
 
-% Show the figure
-set(gcf, 'Color', 'w');
-drawnow;
-value = [];
+netE = nnvae.get('ENCODER');
+mbq = nnvae.get('MBQ', d);
+
+target_values = nne.get('TARGET_VALUES');
+
+Z = [];
+Y = [];
+
+while hasdata(mbq)
+    [X_individual, Y_individual] = next(mbq);
+
+    [~, mu, ~] = predict(netE, X_individual);
+
+    Z = cat(2, Z, extractdata(mu));
+
+    % Y_individual stores data-point indices returned by NNVariationalAutoencoder.MBQ.
+    Y_individual = extractdata(gather(Y_individual));
+    Y_number = cell2mat(target_values(Y_individual));
+
+    Y = cat(2, Y, Y_number);
+end
+
+value = {Z, Y};
+
+%%% ¡prop!
+PLOT_LATENT_REPRESENTATIONS (query, empty) plots and saves a two-dimensional latent-space representation.
+%%%% ¡calculate!
+latent_info = nne.get('LATENT_REPRESENTATIONS');
+
+if isempty(latent_info)
+    value = {};
+    return
+end
+
+Z = latent_info{1};
+Y = latent_info{2};
+
+latent_dim_x = nne.get('LATENT_DIM_X');
+latent_dim_y = nne.get('LATENT_DIM_Y');
+
+if size(Z, 1) < max(latent_dim_x, latent_dim_y)
+    error('The selected latent dimensions exceed the number of available latent dimensions.')
+end
+
+figure('Position', [100 100 650 650])
+
+h = gscatter( ...
+    Z(latent_dim_x, :), ...
+    Z(latent_dim_y, :), ...
+    Y, ...
+    [], ...
+    '.', ...
+    18 ...
+    );
+
+axis square
+box on
+
+xlabel(['Latent dimension ' num2str(latent_dim_x)], 'FontSize', 14)
+ylabel(['Latent dimension ' num2str(latent_dim_y)], 'FontSize', 14)
+title('Latent-space representation', 'FontSize', 16)
+
+set(gca, 'FontSize', 13)
+
+lgd = legend(h, 'Location', 'best');
+lgd.FontSize = 12;
+
+save_dir = nne.get('SAVE_DIR');
+
+if ~isempty(save_dir)
+    if ~isfolder(save_dir)
+        mkdir(save_dir);
+    end
+
+    file_base = [save_dir filesep 'latent_representations'];
+
+    saveas(gcf, [file_base '.fig']);
+    saveas(gcf, [file_base '.png']);
+end
+
+value = {};
+
+%%% ¡prop!
+PLOT_LATENT_CONTINUITY (query, empty) plots and saves a latent-continuity image grid generated from the decoder.
+%%%% ¡calculate!
+nnvae = nne.get('NN');
+
+if isa(nnvae, 'NoValue') || strcmp(class(nnvae), 'NNBase')
+    value = {};
+    return
+end
+
+netD = nnvae.get('DECODER');
+
+grid_size = nne.get('GRID_SIZE');
+image_size = nne.get('IMAGE_SIZE');
+latent_scale = nne.get('LATENT_SCALE');
+
+if grid_size < 1
+    error('GRID_SIZE must be greater than or equal to 1.')
+end
+
+if image_size < 1
+    error('IMAGE_SIZE must be greater than or equal to 1.')
+end
+
+if latent_scale <= 0
+    error('LATENT_SCALE must be greater than 0.')
+end
+
+generated_grid = zeros(image_size * grid_size, image_size * grid_size);
+
+grid_x = linspace(-latent_scale, latent_scale, grid_size);
+grid_y = flip(linspace(-latent_scale, latent_scale, grid_size));
+
+for i = 1:grid_size
+    for j = 1:grid_size
+
+        z_sample = [grid_x(j); grid_y(i)];
+        z_sample = dlarray(z_sample, 'CB');
+
+        x_decoded = predict(netD, z_sample);
+        x_decoded = extractdata(x_decoded);
+
+        generated_image = reshape(x_decoded, image_size, image_size);
+
+        row_idx = 1 + (i - 1) * image_size:i * image_size;
+        col_idx = 1 + (j - 1) * image_size:j * image_size;
+
+        generated_grid(row_idx, col_idx) = generated_image;
+    end
+end
+
+figure('Position', [100 100 750 750])
+
+imagesc(generated_grid)
+colormap('gray')
+axis equal
+axis tight
+axis off
+box on
+
+set(gcf, 'Color', 'w')
+
+title('Latent-space continuity', 'FontSize', 16)
+
+drawnow
+
+save_dir = nne.get('SAVE_DIR');
+
+if ~isempty(save_dir)
+    if ~isfolder(save_dir)
+        mkdir(save_dir);
+    end
+
+    file_base = [save_dir filesep 'latent_continuity'];
+
+    saveas(gcf, [file_base '.fig']);
+    saveas(gcf, [file_base '.png']);
+end
+
+value = {};
 
 %% ¡tests!
+
+%%% ¡excluded_props!
+[NNVariationalAutoencoderEvaluator_Image.TARGET_VALUES NNVariationalAutoencoderEvaluator_Image.LATENT_REPRESENTATIONS NNVariationalAutoencoderEvaluator_Image.PLOT_LATENT_REPRESENTATIONS NNVariationalAutoencoderEvaluator_Image.PLOT_LATENT_CONTINUITY]
+
+%%% ¡test!
+%%%% ¡name!
+Construction
+%%%% ¡code!
+nne = NNVariationalAutoencoderEvaluator_Image();
+
+assert(isa(nne, 'NNVariationalAutoencoderEvaluator_Image'), ...
+    [BRAPH2.STR ':NNVariationalAutoencoderEvaluator_Image:' BRAPH2.FAIL_TEST], ...
+    'NNVariationalAutoencoderEvaluator_Image is not constructed correctly.')
