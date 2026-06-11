@@ -5,3 +5,11 @@
 
 braph2genesis/
 **/braph2genesis/
+braph2genesis/pipelines/VariationalAutoencoderRamanSpectra/.DS_Store
+
+# ============================================================
+# macOS system files
+# ============================================================
+
+.DS_Store
+**/.DS_Store
