@@ -720,7 +720,6 @@ classdef NNVariationalAutoencoderEvaluator_Structural < NNVariationalAutoencoder
 					
 					Z = [];
 					Y = [];
-                    Y_index = [];
 					
 					while hasdata(mbq)
 					    [X_individual, Y_individual] = next(mbq);
@@ -731,12 +730,9 @@ classdef NNVariationalAutoencoderEvaluator_Structural < NNVariationalAutoencoder
 					
 					    % Y_individual stores data-point indices returned by 31.
 					    Y_individual = extractdata(gather(Y_individual));
-                        Y_individual
 					    Y_number = cell2mat(target_values(Y_individual));
-                        Y_number
 					
 					    Y = cat(2, Y, Y_number);
-                        Y_index = cat(2, Y_index, Y_individual);
 					end
 					
 					value = {Z, Y};
